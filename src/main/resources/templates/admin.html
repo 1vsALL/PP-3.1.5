@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>USER LIST</h1>
+<div>
+    <table border="2">
+        <tr>
+            <th> Name</th>
+            <th> Username</th>
+            <th> Password</th>
+            <th> Operation</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.name}"></td>
+            <td th:utext="${user.username}"></td>
+            <td th:utext="${user.password}"></td>
+
+            <td>
+                <a th:href="@{'/delete?id=' + ${user.id}}">Delete</a>
+                <a th:href="@{'/edit?id=' + ${user.id}}">Change</a>
+            </td>
+        </tr>
+    </table>
+
+    <form th:action="@{/add}">
+        <button type="submit">Create new user</button>
+    </form>
+
+</div>
+</body>
+</html>
