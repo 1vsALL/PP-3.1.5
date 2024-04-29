@@ -28,6 +28,14 @@
             <input type="text" name="password" th:id="password" th:value="${user.getPassword()}"><br/>
         </p>
 
+        <label>Roles:
+            <input type="checkbox" name="roles"
+                   th:each="role: ${userRoles}"
+                   th:text="${role.getRole()}"
+                   th:value="${role.getId()}"
+                   th:field="*{roles}"/>
+        </label>
+
         <button type="submit">Ok</button>
     </form>
 

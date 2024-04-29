@@ -13,12 +13,14 @@
             <th> Name</th>
             <th> Username</th>
             <th> Password</th>
+            <th>Roles</th>
             <th> Operation</th>
         </tr>
         <tr th:each="user : ${users}">
             <td th:utext="${user.name}"></td>
             <td th:utext="${user.username}"></td>
             <td th:utext="${user.password}"></td>
+            <td th:utext="${user.getRoles()}"></td>
 
             <td>
                 <a th:href="@{'/delete?id=' + ${user.id}}">Delete</a>
@@ -26,9 +28,13 @@
             </td>
         </tr>
     </table>
-
+    <br>
     <form th:action="@{/add}">
         <button type="submit">Create new user</button>
+    </form>
+    <br>
+    <form th:method="POST" th:action="@{/logout}">
+        <input type="submit" value="Выйти из системы"/>
     </form>
 
 </div>

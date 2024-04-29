@@ -1,6 +1,5 @@
 package ru.kata.spring.boot_security.demo.models;
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,20 +8,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    public User(Long id, String name, String username, String password) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.password = password;
-    }
 
     @Column
     private String name;
@@ -33,11 +24,26 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(  fetch = FetchType.EAGER)
+    public User(Long id, String name, String username, String password, List<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     List<Role> roles;
+
+    public User(Long id, String name, String username, String password) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+    }
 
     public User() {
     }
@@ -55,8 +61,6 @@ public class User implements UserDetails {
         this.name = name;
     }
 
-
-
     public Long getId() {
         return id;
     }
@@ -64,16 +68,6 @@ public class User implements UserDetails {
     public String getUsername() {
         return username;
     }
-
-
-//        @ManyToMany(fetch = FetchType.EAGER)
-//    //Жадная загрузка
-//    @JoinTable(name = "users_roles",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    private List<Role> roles = new ArrayList<>();
-//    public User() {
-//    }
 
     public void setUsername(String name) {
         this.username = name;
@@ -93,6 +87,10 @@ public class User implements UserDetails {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
 

@@ -5,7 +5,24 @@
 </head>
 <body>
 <h1>User, welcome spring boot security page!</h1>
-
-
+<p>
+    <label th:for="id">id</label>
+    <input type="text" name="id" th:id="id" th:value="${user.getId()}">
+</p>
+<p>
+    <label th:for="name">Name</label>
+    <input type="text" name="name" th:id="name" th:value="${user.getName()}">
+</p>
+<p>
+    <label th:for="username">username</label>
+    <input type="text" name="username" th:id="username" th:value="${user.getUsername()}"><br/>
+</p>
+<p>
+    <label th:for="password">password</label>
+    <input type="text" name="password" th:id="password" th:value="${user.getPassword()}"><br/>
+</p>
+<form th:method="POST" th:action="@{/logout}">
+    <input type="submit" value="Выйти из системы"/>
+</form>
 </body>
 </html>

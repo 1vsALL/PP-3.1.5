@@ -1,22 +1,32 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
+import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.security.Principal;
 
 @org.springframework.stereotype.Controller
 public class Controller {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public Controller(UserRepository userRepository) {
+    @Autowired
+    public Controller(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping(value = "/user")
     public String userInfo(Model model, Principal principal){
+        User user = userRepository.findByUsername(principal.getName()).get();
+        model.addAttribute("user", user);
             return "user";
     }
     @GetMapping(value = "/admin")
@@ -27,9 +37,9 @@ public class Controller {
 
     @GetMapping(value = "/add")
     public String addUser(Model model) {
-        System.out.println("add__________________");
         User user = new User();
         model.addAttribute("user", user);
+        model.addAttribute("userRoles", roleRepository.findAll());
         return "editUser";
     }
 
@@ -42,6 +52,7 @@ public class Controller {
     @GetMapping(value = "/edit")
     public String editUser(@RequestParam(value = "id") Long id, Model model) {
         model.addAttribute("user", userRepository.findById(id).get());
+        model.addAttribute("userRoles", roleRepository.findAll());
         return "editUser";
     }
 

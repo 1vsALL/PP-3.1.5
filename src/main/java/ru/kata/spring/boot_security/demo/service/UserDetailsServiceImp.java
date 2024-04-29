@@ -23,15 +23,14 @@ public class UserDetailsServiceImp implements UserDetailsService {
     UserDetailsServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     @Override
     @Transactional
-    //SpringSec ищет данный метод и передает на сверку юзернэйм, если он есть и все ок,
-    // то мы возвращаем ему UserDetails
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userDb = userRepository.findByUsername(username);
-        if (userDb.isEmpty()) {
+        Optional<User> user = userRepository.findByUsername(username);
+        if (user.isEmpty()) {
             throw new UsernameNotFoundException(String.format("Пользователя с ником '%s', нет в базе", username));
         }
-        return userDb.get();
+        return user.get();
     }
 }
