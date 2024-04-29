@@ -51,6 +51,8 @@ public class Controller {
 
     @GetMapping(value = "/edit")
     public String editUser(@RequestParam(value = "id") Long id, Model model) {
+        User user = userRepository.getById(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         model.addAttribute("user", userRepository.findById(id).get());
         model.addAttribute("userRoles", roleRepository.findAll());
         return "editUser";
@@ -58,7 +60,7 @@ public class Controller {
 
     @PostMapping(value = "/edit")
     public String editUser(@ModelAttribute User user) {
-
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
 
         return "redirect:/admin";
