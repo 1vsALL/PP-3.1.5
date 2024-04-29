@@ -13,7 +13,6 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import java.util.Optional;
 
-//Этот класс нужен для того, чтобы отдать SpringSec UserDetails в кфг
 @Service
 public class UserDetailsServiceImp implements UserDetailsService {
 

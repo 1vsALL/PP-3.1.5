@@ -14,10 +14,7 @@ import ru.kata.spring.boot_security.demo.service.UserDetailsServiceImp;
 
 
 @Configuration
-//Это аннотация говорит о том, что требуется включить авторизацию при переходе на страницы
 @EnableWebSecurity
-// WebSecurityConfigurerAdapter в  этом АБСТРАКТНОМ классе методы для настройки безопасности
-//конфигурационного класса
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
     private final UserDetailsServiceImp userService;
@@ -28,9 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
     }
-
-    //Нужен для указания, куда у пользователя есть доступ, где требуются роли или как пользователь должен
-    //вбивать свой логи + пасс, куда должны происходить редиректы после логина/логаута
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
