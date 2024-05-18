@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Людишки</title>
+</head>
+<body>
+<p>Таблица Users</p>
+<table border="6">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>Name</th>
+        <th>lastName</th>
+        <th>Age</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.getId()}"></td>
+        <td>
+            <a th:href="@{'/user?id=' + ${user.getId()}}" th:text="${user.getName()}"></a>
+        </td>
+        <td th:text="${user.getLastName()}"></td>
+        <td th:text="${user.getAge()}"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a th:href="add">Добавление юзера</a>
+</body>
+</html>

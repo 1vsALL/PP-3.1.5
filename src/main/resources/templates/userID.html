@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Человечишка</title>
+</head>
+<body>
+<label for="name">Имя: </label>
+<b th:text="${userID.getName()}" id="name"></b>
+<br>
+<label for="lastName">Фамилия: </label>
+<b th:text="${userID.getLastName()}" id="lastName"></b>
+<br>
+<label for="age">Возраст: </label>
+<b th:text="${userID.getAge()}" id="age"></b>
+<br>
+<a th:href="@{'edit?id='+ ${userID.getId()}}">Редактирование юзера</a>
+<br>
+<a th:href="@{'remove?id='+ ${userID.getId()}}">Удалить юзера</a>
+</body>
+</html>
