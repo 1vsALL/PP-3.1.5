@@ -17,12 +17,12 @@ import javax.validation.Valid;
 
 
 @Controller
-@RequestMapping("/")
-public class UserController {
+@RequestMapping("/admin")
+public class AdminController {
     private final UserService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public AdminController(UserService userService) {
         this.userService = userService;
     }
 
@@ -45,7 +45,7 @@ public class UserController {
             return "add";
         }
         userService.addUser(user);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
     @GetMapping("/user")
@@ -57,7 +57,7 @@ public class UserController {
     @GetMapping("/remove")
     public String removeUser(@RequestParam("id") Long id) {
         userService.removeUserById(id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 
@@ -75,7 +75,7 @@ public class UserController {
             return "usersEdit";
         }
         userService.update(user, id);
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 }

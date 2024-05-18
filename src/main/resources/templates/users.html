@@ -11,22 +11,20 @@
     <tr>
         <th>id</th>
         <th>Name</th>
-        <th>lastName</th>
-        <th>Age</th>
+
     </tr>
     </thead>
     <tbody>
     <tr th:each="user : ${userList}">
         <td th:text="${user.getId()}"></td>
         <td>
-            <a th:href="@{'/user?id=' + ${user.getId()}}" th:text="${user.getName()}"></a>
+            <a th:href="@{'admin/user?id=' + ${user.getId()}}" th:text="${user.getName()}"></a>
         </td>
-        <td th:text="${user.getLastName()}"></td>
-        <td th:text="${user.getAge()}"></td>
+
     </tr>
     </tbody>
 </table>
 <br>
-<a th:href="add">Добавление юзера</a>
+<a th:href="@{'admin/add'}">Добавление юзера</a>
 </body>
 </html>

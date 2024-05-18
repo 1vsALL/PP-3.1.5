@@ -10,13 +10,9 @@
     <input type="text" th:field="*{name}" id="name"/>
     <div style="color: green" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </br>
-    <label for="lastName">Введите фамилию: </label>
-    <input type="text" th:field="*{lastName}" id="lastName"/>
-    <div style="color: darkmagenta" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
-    </br>
-    <label for="age">Введите возраст: </label>
-    <input type="text" th:field="*{age}" id="age"/>
-    <div style="color: darkblue" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+    <label for="password">Введите пароль: </label>
+    <input type="text" th:field="*{password}" id="password"/>
+    <div style="color: darkmagenta" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     </br>
     </br>
     <input type="submit" value="Редактирование Юзера">
