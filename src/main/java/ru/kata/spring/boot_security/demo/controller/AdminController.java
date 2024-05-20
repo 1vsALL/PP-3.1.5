@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
-import javax.validation.Valid;
 
 
 @Controller
@@ -23,11 +23,13 @@ import javax.validation.Valid;
 public class AdminController {
     private final UserService userService;
     private final UserValidator userValidator;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UserService userService, UserValidator userValidator) {
+    public AdminController(UserService userService, UserValidator userValidator, RoleRepository roleRepository) {
         this.userService = userService;
         this.userValidator = userValidator;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping()
@@ -39,6 +41,7 @@ public class AdminController {
     @GetMapping("/add")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
+        modelMap.addAttribute("role",roleRepository.findAll());
         return "add";
     }
 
@@ -69,6 +72,8 @@ public class AdminController {
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("user", userService.userID(id));
+        modelMap.addAttribute("role",roleRepository.findAll());
+
         return "usersEdit";
     }
 
