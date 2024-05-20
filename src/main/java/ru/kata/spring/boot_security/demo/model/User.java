@@ -1,11 +1,15 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,8 +38,8 @@ public class User implements UserDetails {
     @NotEmpty(message = "Пароль не должен быть пустой")
     @Size(min = 3, max = 30, message = "Пароль должен быть от 3 до 30 символов")
     private String password;
-
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Cascade(CascadeType.MERGE)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

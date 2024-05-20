@@ -12,18 +12,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.util.UserValidator;
 
 import javax.validation.Valid;
 
 
 @Controller
 @RequestMapping("/admin")
-public class UserController {
+public class AdminController {
     private final UserService userService;
+    private final UserValidator userValidator;
 
     @Autowired
-    public UserController(UserService userService) {
+    public AdminController(UserService userService, UserValidator userValidator) {
         this.userService = userService;
+        this.userValidator = userValidator;
     }
 
     @GetMapping()
@@ -41,6 +44,7 @@ public class UserController {
     @PostMapping()
     public String createUser(@ModelAttribute("user") @Valid User user,
                              BindingResult bindingResult) {
+        userValidator.validate(user,bindingResult);
         if (bindingResult.hasErrors()) {
             return "add";
         }
@@ -71,6 +75,7 @@ public class UserController {
     public String update(@RequestParam("id") long id,
                          @ModelAttribute("user") @Valid User user,
                          BindingResult bindingResult) {
+        userValidator.validate(user,bindingResult);
         if (bindingResult.hasErrors()) {
             return "usersEdit";
         }
