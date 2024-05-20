@@ -36,7 +36,6 @@ public class User implements UserDetails {
 
     @Column
     @NotEmpty(message = "Пароль не должен быть пустой")
-    @Size(min = 3, max = 30, message = "Пароль должен быть от 3 до 30 символов")
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @Cascade(CascadeType.MERGE)

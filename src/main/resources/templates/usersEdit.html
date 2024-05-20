@@ -11,11 +11,13 @@
     <div style="color: green" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </br>
     <label for="password">Введите пароль: </label>
-    <input type="text" th:field="*{password}" id="password"/>
+    <input type="password" th:field="*{password}" id="password"/>
     <div style="color: darkmagenta" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     </br>
     </br>
     <input type="submit" value="Редактирование Юзера">
 </form>
+<br>
+<a th:href="@{'/logout'}">Выход</a>
 </body>
 </html>
