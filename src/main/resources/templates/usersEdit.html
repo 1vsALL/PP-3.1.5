@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Редактирование человекаф</title>
 </head>
 <body>
 <form th:method="POST" th:action="@{'update?id='+${user.getId()}}" th:object="${user}">
-    <label for="name">Введите имя: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <div style="color: green" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+   <p  th:text="${'Имя пользователя: '+user.getName()}"></p>
+
+
     </br>
     <label for="password">Введите пароль: </label>
     <input type="password" th:field="*{password}"
            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}"
-           title="Пароль должен содержать заглавную, маленькую буквы , цифры.
+           title="Пароль должен содержать заглавную, маленькую буквы и цифры.
             Длинна пароля от 6 до 20 символов" id="password"/>
     <div style="color: darkmagenta" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     </br>

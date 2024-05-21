@@ -1,8 +1,7 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

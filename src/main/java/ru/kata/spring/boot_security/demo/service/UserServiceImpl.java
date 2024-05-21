@@ -59,11 +59,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user, long id) {
         User updatedUser = userRepository.findById(id).get();
-        updatedUser.setId(id);
         updatedUser.setRoles(user.getRoles());
-        updatedUser.setName(user.getName());
         updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(updatedUser);
     }
 
     @Override
@@ -72,8 +69,8 @@ public class UserServiceImpl implements UserService {
         if (updatedUser.isEmpty()) {
             throw new UsernameNotFoundException("Нет такого");
         }
-        return new User(updatedUser.get().getName(), updatedUser.get().getPassword()
-                , (Collection<Role>) mapRolesToAuthorities(updatedUser.get().getRoles()));
+        return new org.springframework.security.core.userdetails.User(updatedUser.get().getUsername(),
+                updatedUser.get().getPassword(), mapRolesToAuthorities(updatedUser.get().getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {

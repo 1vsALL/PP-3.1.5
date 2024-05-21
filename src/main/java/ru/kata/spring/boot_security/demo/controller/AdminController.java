@@ -17,7 +17,6 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
 
 
-
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -41,14 +40,14 @@ public class AdminController {
     @GetMapping("/add")
     public String newUser(ModelMap modelMap) {
         modelMap.addAttribute("user", new User());
-        modelMap.addAttribute("role",roleRepository.findAll());
+        modelMap.addAttribute("role", roleRepository.findAll());
         return "add";
     }
 
     @PostMapping()
     public String createUser(@ModelAttribute("user") @Validated User user,
                              BindingResult bindingResult) {
-        userValidator.validate(user,bindingResult);
+        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "add";
         }
@@ -68,23 +67,15 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-
     @GetMapping("/edit")
     public String edit(@RequestParam("id") int id, ModelMap modelMap) {
         modelMap.addAttribute("user", userService.userID(id));
-        modelMap.addAttribute("role",roleRepository.findAll());
-
+        modelMap.addAttribute("role", roleRepository.findAll());
         return "usersEdit";
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("id") long id,
-                         @ModelAttribute("user") @Validated User user,
-                         BindingResult bindingResult) {
-        userValidator.validate(user,bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "usersEdit";
-        }
+    public String update(@RequestParam("id") long id, @ModelAttribute("user") User user) {
         userService.update(user, id);
         return "redirect:/admin";
     }

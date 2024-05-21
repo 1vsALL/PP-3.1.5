@@ -14,7 +14,7 @@
     <label for="password">Введите пароль: </label>
     <input type="password" th:field="*{password}"
            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}"
-           title="Пароль должен содержать заглавную, маленькую буквы , цифры.
+           title="Пароль должен содержать заглавную, маленькую буквы и цифры.
             Длинна пароля от 6 до 20 символов" id="password"/>
     <div style="color: cadetblue" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
 
