@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>For simple Users</title>
+</head>
+<body>
+
+<label for="ID">ID юзера: </label>
+<b th:text="${userID.getId()}" id="ID"></b>
+<br>
+<label for="name">Имя: </label>
+<b th:text="${userID.getName()}" id="name"></b>
+
+<br>
+<a th:href="@{'/logout'}">Выход</a>
+</body>
+</html>
