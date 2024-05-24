@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -22,13 +23,13 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List<User> users;
+    private Collection<User> users;
 
     public Role(String name) {
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public Collection<User> getUsers() {
         return users;
     }
 
@@ -57,7 +58,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-//        return users.stream().map(User::getAuthorities).collect(Collectors.toList()).toString();
-        return null;
+        return name;
     }
 }

@@ -7,8 +7,8 @@
 <body>
 <form th:method="POST" th:action="@{'update?id='+${user.getId()}}" th:object="${user}">
    <p  th:text="${'Имя пользователя: '+user.getName()}"></p>
-
-
+    <label for="name">Введите имя: </label>
+    <input type="text" th:field="*{name}" id="name"/>
     </br>
     <label for="password">Введите пароль: </label>
     <input type="password" th:field="*{password}"

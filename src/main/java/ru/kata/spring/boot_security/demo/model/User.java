@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,6 +17,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -36,13 +36,13 @@ public class User implements UserDetails {
     @NotEmpty(message = "Пароль не должен быть пустой")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
 
-    public User(String name, String password, Collection<Role> roles) {
+    public User(String name, String password, List<Role> roles) {
         this.name = name;
         this.password = password;
         this.roles = roles;
@@ -70,7 +70,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     public String getPassword() {
