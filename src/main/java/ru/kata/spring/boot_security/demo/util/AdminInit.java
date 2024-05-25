@@ -1,12 +1,11 @@
 package ru.kata.spring.boot_security.demo.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -15,20 +14,25 @@ import java.util.Collections;
 public class AdminInit {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AdminInit( UserRepository userRepository) {
+    public AdminInit(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
-    @Transactional
+
     public void Init() {
-    User user=new User("adminka","admin", Collections.emptyList());
-    if(userRepository.findByName(user.getName()).isEmpty()){
-        
-        userRepository.save(user);
-    }
+        Role role = new Role();
+        role.setId(1L);
+        User admin = new User("admin", "admin", Collections.singletonList(role));
+        if (userRepository.findByName(admin.getName()).isEmpty()) {
+            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+            userRepository.save(admin);
+        }
     }
 }

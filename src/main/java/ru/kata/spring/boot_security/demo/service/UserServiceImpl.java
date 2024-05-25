@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void addUser(User user) {
-        if (userRepository.findByName(user.getUsername()).isPresent()) {
+        if (userRepository.findByName(user.getUsername()).isEmpty()) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         } else {
@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new EntityNotFoundException();
         }
-
     }
 
     @Transactional
