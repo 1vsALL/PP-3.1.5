@@ -3,37 +3,32 @@ package ru.kata.spring.boot_security.demo.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.model.Role;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 @Component
 public class AdminInit {
 
-    private final UserServiceImpl userService;
-    private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public AdminInit(UserServiceImpl userService, UserDetailsService userDetailsService) {
-        this.userService = userService;
+    public AdminInit( UserRepository userRepository) {
+        this.userRepository = userRepository;
 
-        this.userDetailsService = userDetailsService;
     }
 
     @PostConstruct
+    @Transactional
     public void Init() {
-        List<Role> example = new ArrayList<>();
-        Role role=new Role("ADMIN");
-        User admin = new User("adminka",
-                "admin"
-
-        );
-        admin.addRole("ADMIN");
-
-        userService.addUser(admin);
+    User user=new User("adminka","admin", Collections.emptyList());
+    if(userRepository.findByName(user.getName()).isEmpty()){
+        
+        userRepository.save(user);
+    }
     }
 }

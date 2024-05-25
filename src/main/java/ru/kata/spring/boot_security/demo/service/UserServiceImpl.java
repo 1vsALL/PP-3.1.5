@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,8 +35,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void addUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (userRepository.findByName(user.getUsername()).isPresent()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else {
+            throw new EntityNotFoundException();
+        }
     }
 
     @Override
@@ -47,7 +52,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void removeUserById(long id) {
-        userRepository.deleteById(id);
+        if (userRepository.findById(id).isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException();
+        }
+
     }
 
     @Transactional
