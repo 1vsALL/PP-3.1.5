@@ -8,14 +8,17 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.UserSecurity;
 
 @Component
 public class UserValidator implements Validator {
-    private final UserDetailsService userDetailsService;
+//    private final UserDetailsService userDetailsService;
+    private final UserSecurity userSecurity;
 
     @Autowired
-    public UserValidator(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public UserValidator( UserSecurity userSecurity) {
+        this.userSecurity = userSecurity;
+
     }
 
     @Override
@@ -27,7 +30,7 @@ public class UserValidator implements Validator {
     public void validate(Object target, Errors errors) {
         User user = (User) target;
         try {
-            userDetailsService.loadUserByUsername(user.getUsername());
+            userSecurity.loadUserByUsername(user.getUsername());
         } catch (UsernameNotFoundException ignored) {
             return;
         }

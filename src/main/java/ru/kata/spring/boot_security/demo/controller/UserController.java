@@ -23,7 +23,6 @@ public class UserController {
 
     @GetMapping()
     public String showSimpleUser(Principal principal, ModelMap modelMap) {
-        System.out.println("tyy");
         User user = userRepository.findByName(principal.getName()).get();
         modelMap.addAttribute("userID", user);
         return "userShow";
