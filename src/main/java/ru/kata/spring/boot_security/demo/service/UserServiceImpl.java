@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user, long id) {
         User updatedUser = userRepository.findById(id).get();
+        updatedUser.setName(user.getName());
         updatedUser.setRoles(user.getRoles());
         updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
     }

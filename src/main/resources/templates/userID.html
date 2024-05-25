@@ -13,8 +13,11 @@
 <br>
 <a th:href="@{'edit?id='+ ${userID.getId()}}">Редактирование юзера</a>
 <br>
-<a th:method="POST" th:href="@{'remove?id='+ ${userID.getId()}}" >Удалить юзера</a>
+<form method="POST" th:action="@{'remove?id='+${userID.getId()}}">
+    <button type="submit">Удалить юзера</button>
+</form>
 <br>
 <a th:href="@{'/logout'}">Выход</a>
+
 </body>
 </html>
