@@ -18,6 +18,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -109,6 +110,13 @@ public class User implements UserDetails {
 
     public List<Role> getRoles() {
         return roles;
+    }
+    public String getRolesString() {
+        return String.join("," ,roles.toString())
+                .replaceAll("ROLE_","")
+                .replaceAll("\\]","")
+                .replaceAll("\\[","")
+                .toString();
     }
 
     public void setRoles(List<Role> roles) {

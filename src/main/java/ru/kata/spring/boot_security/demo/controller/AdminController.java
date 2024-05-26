@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.UserSecurity;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.util.UserValidator;
+
+import java.security.Principal;
 
 
 @Controller
@@ -23,16 +26,20 @@ public class AdminController {
     private final UserService userService;
     private final UserValidator userValidator;
     private final RoleService roleService;
+    private final UserSecurity userSecurity;
 
     @Autowired
-    public AdminController(UserService userService, UserValidator userValidator, RoleService roleService) {
+    public AdminController(UserService userService, UserValidator userValidator, RoleService roleService, UserSecurity userSecurity) {
         this.userService = userService;
         this.userValidator = userValidator;
         this.roleService = roleService;
+        this.userSecurity = userSecurity;
     }
 
     @GetMapping()
-    public String users(ModelMap modelMap) {
+    public String users(ModelMap modelMap, Principal principal) {
+        User user= (User) userSecurity.loadUserByUsername(principal.getName());
+        modelMap.addAttribute("user",userService.userID(user.getId()));
         modelMap.addAttribute("userList", userService.listUsers());
         return "users";
     }
@@ -75,7 +82,7 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("id") long id, @ModelAttribute("user") User user) {
+    public String update(@RequestParam("id") long id, @ModelAttribute("human") User user) {
         userService.update(user, id);
         return "redirect:/admin";
     }
