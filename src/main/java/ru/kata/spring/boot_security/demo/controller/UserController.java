@@ -6,25 +6,29 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.kata.spring.boot_security.demo.model.User;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.security.UserSecurity;
 
 import java.security.Principal;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
-    private final UserRepository userRepository;
+
+    private final UserSecurity userSecurity;
 
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-
+    public UserController(UserSecurity userSecurity) {
+        this.userSecurity = userSecurity;
     }
+
 
     @GetMapping()
     public String showSimpleUser(Principal principal, ModelMap modelMap) {
-        User user = userRepository.findByName(principal.getName()).get();
-        modelMap.addAttribute("userID", user);
+        User user = (User) userSecurity.loadUserByUsername(principal.getName());
+        boolean security = user.getRolesString().contains("ADMIN");
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("security", security);
         return "userShow";
     }
+
 }

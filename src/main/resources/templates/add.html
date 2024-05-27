@@ -27,29 +27,68 @@
     <div class="container-fluid">
         <div class="row">
             <div class="p-0 col-2">
-                <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" role="tab"
-                       aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                    <a class="nav-link" href="/user" sec:authorize="(hasAnyAuthority('ADMIN', 'USER'))"
-                       role="tab"
-                       aria-controls="v-pills-profile" aria-selected="false">User</a>
-                </div>
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse bg-white">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a th:class="${'nav-link ' + (security ? '': 'disabled') }" href="/admin">Admin</a>
+                                <a th:class="nav-link" href="/user">User</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
             <div class="col-10 px-0">
                 <div class="container-fluid">
                     <h1 class="m-3 fw-bold">Админская панель</h1>
                     <div class="tab-content" id="tabContent">
                         <ul class="nav nav-tabs">
-                            <a class="nav-link " data-bs-toggle="tab" href="/admin/">Таблица юзеров</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="/admin/">Таблица юзеров</a>
                             <a class="nav-link active" data-bs-toggle="tab" >Новый пользователь</a>
                         </ul>
                         <div class="card">
                             <div class="card-header">
                                 <div class="m-1">
-                                    <h4>Все юзеры</h4>
+                                    <h4>Создание пользователя</h4>
                                 </div>
                             </div>
                         </div>
+                        <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4"
+                              th:align="center"
+                              th:action="@{/admin}"
+                              th:object="${newUser}"
+                              method="POST">
+                            <strong>Имя</strong>
+                            <input class="form-control" th:name="name"
+                                   th:type="text" required>
+                            <strong>Фамилия</strong>
+                            <input class="form-control" th:name="lastName"
+                                   th:type="text" required>
+                            <strong>Почта</strong>
+                            <input class="form-control" th:name="email"
+                                   th:type="text" required>
+                            <strong>Пароль</strong>
+                            <input class="form-control" th:name="password"
+                                   th:type="password" required>
+                            <strong>Возраст</strong>
+                            <input class="form-control" th:name="age"
+                                   th:type="number" required>
+                            <strong>Роли</strong>
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" th:type="checkbox"
+                                       id="inlineCheckbox1" th:name="roles" th:value=1>
+                                <label class="form-check-label" for="inlineCheckbox1">Админ</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" th:type="checkbox"
+                                       id="inlineCheckbox2" th:name="roles" th:value=2 checked>
+                                <label class="form-check-label" for="inlineCheckbox2">Пользователь</label>
+                            </div>
+                            <br>
+                            <button th:type="submit" class="btn btn-success btn-sm" >Создать пользователя
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

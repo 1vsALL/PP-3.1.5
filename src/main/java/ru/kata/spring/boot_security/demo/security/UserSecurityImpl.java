@@ -22,7 +22,7 @@ public class UserSecurityImpl implements UserSecurity {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> updatedUser = userRepository.findByName(username);
+        Optional<User> updatedUser = userRepository.findByEmail(username);
         if (updatedUser.isEmpty()) {
             throw new UsernameNotFoundException("Нет такого");
         }

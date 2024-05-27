@@ -37,8 +37,14 @@ public class User implements UserDetails {
     @NotEmpty(message = "Пароль не должен быть пустой")
     private String password;
     @Column
-    @Min(value = 0,message = "Возраст не может быть отрицательным")
+    @Min(value = 0, message = "Возраст не может быть отрицательным")
     private int age;
+    @Column
+    @NotEmpty(message = "Фамилия не должна быть пустой")
+    @Size(min = 3, max = 30, message = "Фамилия должна быть от 3 до 30 символов")
+    private String lastName;
+    @Column
+    private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -46,10 +52,12 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User(String name, String password, int age, List<Role> roles) {
+    public User(String name, String password, int age, String lastName, String email, List<Role> roles) {
         this.name = name;
         this.password = password;
         this.age = age;
+        this.lastName = lastName;
+        this.email = email;
         this.roles = roles;
     }
 
@@ -67,6 +75,22 @@ public class User implements UserDetails {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -92,7 +116,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.email;
     }
 
     @Override

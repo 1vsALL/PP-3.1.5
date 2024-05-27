@@ -28,8 +28,8 @@ public class AdminInit {
     public void Init() {
         Role role = new Role();
         role.setId(1L);
-        User admin = new User("admin", "admin",200,  Collections.singletonList(role));
-        if (userRepository.findByName(admin.getName()).isEmpty()) {
+        User admin = new User("admin", "admin",200,"admin","admin@admin.ru",  Collections.singletonList(role));
+        if (userRepository.findByEmail(admin.getEmail()).isEmpty()) {
             admin.setPassword(passwordEncoder.encode(admin.getPassword()));
             userRepository.save(admin);
         }

@@ -28,6 +28,7 @@ public class AdminController {
     private final RoleService roleService;
     private final UserSecurity userSecurity;
 
+
     @Autowired
     public AdminController(UserService userService, UserValidator userValidator, RoleService roleService, UserSecurity userSecurity) {
         this.userService = userService;
@@ -38,37 +39,35 @@ public class AdminController {
 
     @GetMapping()
     public String users(ModelMap modelMap, Principal principal) {
-        User user= (User) userSecurity.loadUserByUsername(principal.getName());
-        modelMap.addAttribute("user",userService.userID(user.getId()));
+        User user = (User) userSecurity.loadUserByUsername(principal.getName());
+        boolean security = user.getRolesString().contains("ADMIN");
+        modelMap.addAttribute("user", userService.userID(user.getId()));
         modelMap.addAttribute("userList", userService.listUsers());
         modelMap.addAttribute("rollers", roleService.getRoles());
+        modelMap.addAttribute("security", security);
         return "users";
     }
 
     @GetMapping("/add")
-    public String newUser(ModelMap modelMap,Principal principal) {
-        User user= (User) userSecurity.loadUserByUsername(principal.getName());
-        modelMap.addAttribute("user",userService.userID(user.getId()));
+    public String newUser(ModelMap modelMap, Principal principal) {
+        User user = (User) userSecurity.loadUserByUsername(principal.getName());
+        boolean security = user.getRolesString().contains("ADMIN");
+        modelMap.addAttribute("user", userService.userID(user.getId()));
         modelMap.addAttribute("newUser", new User());
-        modelMap.addAttribute("role", roleService.getRoles());
+        modelMap.addAttribute("security", security);
         return "add";
     }
 
     @PostMapping()
-    public String createUser(@ModelAttribute("user") @Validated User user,
-                             BindingResult bindingResult) {
+    public String createUser(@ModelAttribute("userAdded") @Validated User user,
+                             BindingResult bindingResult, ModelMap modelMap) {
         userValidator.validate(user, bindingResult);
+
         if (bindingResult.hasErrors()) {
             return "add";
         }
         userService.addUser(user);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/user")
-    public String userID(@RequestParam("id") long id, ModelMap modelMap) {
-        modelMap.addAttribute("userID", userService.userID(id));
-        return "userID";
     }
 
     @PostMapping("/remove")
@@ -84,8 +83,9 @@ public class AdminController {
         return "usersEdit";
     }
 
+
     @PostMapping("/update")
-    public String update(@RequestParam("id") long id, @ModelAttribute("human") User user,ModelMap modelMap) {
+    public String update(@RequestParam("id") long id, @ModelAttribute("human") User user, ModelMap modelMap) {
         modelMap.addAttribute("roles", roleService.getRoles());
         userService.update(user, id);
         return "redirect:/admin";

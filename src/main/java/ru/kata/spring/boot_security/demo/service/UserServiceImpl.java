@@ -33,12 +33,14 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void addUser(User user) {
-        if (userRepository.findByName(user.getUsername()).isEmpty()) {
+        if (userRepository.findByEmail(user.getUsername()).isEmpty()) {
             User updatedUser = new User();
             updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
             updatedUser.setAge(user.getAge());
             updatedUser.setId(user.getId());
             updatedUser.setName(user.getName());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setEmail(user.getEmail());
             updatedUser.setRoles(user.getRoles());
             userRepository.save(updatedUser);
         } else {
@@ -68,7 +70,11 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.findById(id).get();
         updatedUser.setName(user.getName());
         updatedUser.setRoles(user.getRoles());
+        updatedUser.setEmail(user.getEmail());
+        updatedUser.setLastName(user.getLastName());
         updatedUser.setAge(user.getAge());
-        updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (!user.getPassword().isEmpty()) {
+            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Людишки</title>
@@ -26,13 +26,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="p-0 col-2">
-                <div class="nav flex-column nav-pills pt-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                    <a class="nav-link active" href="/admin" sec:authorize="hasAuthority('ADMIN')" role="tab"
-                       aria-controls="v-pills-home" aria-selected="true">Admin</a>
-                    <a class="nav-link" href="/user" sec:authorize="(hasAnyAuthority('ADMIN', 'USER'))"
-                       role="tab"
-                       aria-controls="v-pills-profile" aria-selected="false">User</a>
-                </div>
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse bg-white">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a th:class="${'nav-link ' + (security ? '': 'disabled') }" href="/admin">Admin</a>
+                                <a th:class="nav-link" href="/user">User</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
             <div class="col-10 px-0">
                 <div class="container-fluid">
@@ -54,6 +57,8 @@
                                     <tr>
                                         <th>ID</th>
                                         <th>Имя</th>
+                                        <th>Фамилия</th>
+                                        <th>Почта</th>
                                         <th>Возраст</th>
                                         <th>Роли</th>
                                         <th>Обновить</th>
@@ -62,6 +67,8 @@
                                     <tr th:each="human : ${userList}">
                                         <td th:text="${human.getId()}"></td>
                                         <td th:text="${human.getName()}"></td>
+                                        <td th:text="${human.getLastName()}"></td>
+                                        <td th:text="${human.getEmail()}"></td>
                                         <td th:text="${human.getAge()}"></td>
                                         <td th:text="${human.getRolesString()}"></td>
                                         <td>
@@ -90,12 +97,18 @@
                                                             <strong>Имя</strong>
                                                             <input class="form-control" th:name="name"
                                                                    th:type="text" th:value="${human.name}">
+                                                            <strong>Фамилия</strong>
+                                                            <input class="form-control" th:name="lastName"
+                                                                   th:type="text" th:value="${human.lastName}">
+                                                            <strong>Почта</strong>
+                                                            <input class="form-control" th:name="email"
+                                                                   th:type="text" th:value="${human.email}">
                                                             <strong>Возраст</strong>
                                                             <input class="form-control" th:name="age"
                                                                    th:type="number" th:value="${human.age}">
                                                             <strong>Пароль</strong>
                                                             <input class="form-control" th:name="password"
-                                                                   th:type="text" >
+                                                                   th:type="text">
                                                             <strong>Роли</strong>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" th:type="checkbox"
@@ -104,9 +117,11 @@
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" th:type="checkbox"
-                                                                       id="inlineCheckbox2" th:name="roles" th:value=2 checked>
+                                                                       id="inlineCheckbox2" th:name="roles" th:value=2
+                                                                       checked>
                                                                 <label class="form-check-label" for="inlineCheckbox2">Пользователь</label>
                                                             </div>
+
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                         data-dismiss="modal">Закрыть
@@ -130,7 +145,8 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" th:id="${'DELETE'+human.id}">Удалить пользователя</h5>
+                                                        <h5 class="modal-title" th:id="${'DELETE'+human.id}">Удалить
+                                                            пользователя</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -147,11 +163,20 @@
                                                             <input th:name="name" th:type="text"
                                                                    class="form-control"
                                                                    id="name1" th:value="${human.name}" disabled/>
+                                                            <label for="name1"><b>Фамилия</b></label>
+                                                            <input th:name="lastName" th:type="text"
+                                                                   class="form-control"
+                                                                   id="lastName" th:value="${human.lastName}" disabled/>
+                                                            <label for="name1"><b>Почта</b></label>
+                                                            <input th:name="email" th:type="text"
+                                                                   class="form-control"
+                                                                   id="email" th:value="${human.email}" disabled/>
                                                             <br>
                                                             <label for="role1"><b>Роли</b></label>
                                                             <input th:name="role" th:type="text"
                                                                    class="form-control"
-                                                                   id="role1" th:value="${human.getRolesString()}" disabled/>
+                                                                   id="role1" th:value="${human.getRolesString()}"
+                                                                   disabled/>
                                                             <br>
                                                         </div>
                                                         <div class="modal-footer">
@@ -175,7 +200,6 @@
         </div>
     </div>
 </section>
-
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
