@@ -14,11 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Entity
@@ -36,6 +36,9 @@ public class User implements UserDetails {
     @Column
     @NotEmpty(message = "Пароль не должен быть пустой")
     private String password;
+    @Column
+    @Min(value = 0,message = "Возраст не может быть отрицательным")
+    private int age;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles",
@@ -43,15 +46,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User(String name, String password, List<Role> roles) {
+    public User(String name, String password, int age, List<Role> roles) {
         this.name = name;
         this.password = password;
+        this.age = age;
         this.roles = roles;
-    }
-
-    public User(String name, String password) {
-        this.name = name;
-        this.password = password;
     }
 
     public long getId() {
@@ -60,6 +59,14 @@ public class User implements UserDetails {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getName() {
@@ -111,11 +118,12 @@ public class User implements UserDetails {
     public List<Role> getRoles() {
         return roles;
     }
+
     public String getRolesString() {
-        return String.join("," ,roles.toString())
-                .replaceAll("ROLE_","")
-                .replaceAll("\\]","")
-                .replaceAll("\\[","")
+        return String.join(",", roles.toString())
+                .replace("ROLE_", "")
+                .replaceAll("\\]", "")
+                .replaceAll("\\[", "")
                 .toString();
     }
 

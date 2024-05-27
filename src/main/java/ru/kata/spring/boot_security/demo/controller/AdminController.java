@@ -41,12 +41,15 @@ public class AdminController {
         User user= (User) userSecurity.loadUserByUsername(principal.getName());
         modelMap.addAttribute("user",userService.userID(user.getId()));
         modelMap.addAttribute("userList", userService.listUsers());
+        modelMap.addAttribute("rollers", roleService.getRoles());
         return "users";
     }
 
     @GetMapping("/add")
-    public String newUser(ModelMap modelMap) {
-        modelMap.addAttribute("user", new User());
+    public String newUser(ModelMap modelMap,Principal principal) {
+        User user= (User) userSecurity.loadUserByUsername(principal.getName());
+        modelMap.addAttribute("user",userService.userID(user.getId()));
+        modelMap.addAttribute("newUser", new User());
         modelMap.addAttribute("role", roleService.getRoles());
         return "add";
     }
@@ -82,7 +85,8 @@ public class AdminController {
     }
 
     @PostMapping("/update")
-    public String update(@RequestParam("id") long id, @ModelAttribute("human") User user) {
+    public String update(@RequestParam("id") long id, @ModelAttribute("human") User user,ModelMap modelMap) {
+        modelMap.addAttribute("roles", roleService.getRoles());
         userService.update(user, id);
         return "redirect:/admin";
     }

@@ -34,8 +34,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(User user) {
         if (userRepository.findByName(user.getUsername()).isEmpty()) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            userRepository.save(user);
+            User updatedUser = new User();
+            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            updatedUser.setAge(user.getAge());
+            updatedUser.setId(user.getId());
+            updatedUser.setName(user.getName());
+            updatedUser.setRoles(user.getRoles());
+            userRepository.save(updatedUser);
         } else {
             throw new EntityNotFoundException();
         }
@@ -63,6 +68,7 @@ public class UserServiceImpl implements UserService {
         User updatedUser = userRepository.findById(id).get();
         updatedUser.setName(user.getName());
         updatedUser.setRoles(user.getRoles());
+        updatedUser.setAge(user.getAge());
         updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 }

@@ -36,11 +36,11 @@
             </div>
             <div class="col-10 px-0">
                 <div class="container-fluid">
-                    <h1 class="m-3 fw-bold">Admin panel</h1>
+                    <h1 class="m-3 fw-bold">Админская панель</h1>
                     <div class="tab-content" id="tabContent">
                         <ul class="nav nav-tabs">
                             <a class="nav-link active" data-bs-toggle="tab">Таблица юзеров</a>
-                            <a class="nav-link" data-bs-toggle="tab" href="/admin/add">Новый юзер</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="/admin/add">Новый пользователь</a>
                         </ul>
                         <div class="card">
                             <div class="card-header">
@@ -49,35 +49,36 @@
                                 </div>
                             </div>
 
-                            <div class="card-body" bg-primary text-white>
+                            <div class="card-body" bg-primary text-black>
                                 <table class="table table-striped table-hover">
                                     <tr>
                                         <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Roles</th>
-                                        <th>Update</th>
-                                        <th>Delete</th>
+                                        <th>Имя</th>
+                                        <th>Возраст</th>
+                                        <th>Роли</th>
+                                        <th>Обновить</th>
+                                        <th>Удалить</th>
                                     </tr>
                                     <tr th:each="human : ${userList}">
                                         <td th:text="${human.getId()}"></td>
                                         <td th:text="${human.getName()}"></td>
+                                        <td th:text="${human.getAge()}"></td>
                                         <td th:text="${human.getRolesString()}"></td>
                                         <td>
-                                            <button type="button" class="btn btn-success" data-toggle="modal"
-                                                    th:data-target="${'#edituser'+human.id}">Edit
+                                            <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    th:data-target="${'#edit'+human.id}">Обнова
                                             </button>
                                         </td>
 
-                                        <div class="modal fade" th:id="${'edituser'+human.id}" tabindex="-1" role="dialog"
+                                        <div class="modal fade" th:id="${'edit'+human.id}" tabindex="-1" role="dialog"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" th:id="${'edituser'+human.id}">Modal
+                                                        <h5 class="modal-title" th:id="${'edit'+human.id}">Modal
                                                             title</h5>
                                                         <button type="button" class="close" data-dismiss="modal"
                                                                 aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
@@ -86,21 +87,25 @@
                                                             <strong>ID</strong>
                                                             <input class="form-control" th:name="id" th:type="text"
                                                                    readonly th:value="${human.id}">
-                                                            <strong>Username</strong>
+                                                            <strong>Имя</strong>
                                                             <input class="form-control" th:name="name"
                                                                    th:type="text" th:value="${human.name}">
+                                                            <strong>Возраст</strong>
+                                                            <input class="form-control" th:name="age"
+                                                                   th:type="number" th:value="${human.age}">
+                                                            <strong>Пароль</strong>
                                                             <input class="form-control" th:name="password"
                                                                    th:type="text" >
-                                                            <strong>Roles</strong>
+                                                            <strong>Роли</strong>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" th:type="checkbox"
                                                                        id="inlineCheckbox1" th:name="roles" th:value=1>
-                                                                <label class="form-check-label" for="inlineCheckbox1">Admin</label>
+                                                                <label class="form-check-label" for="inlineCheckbox1">Админ</label>
                                                             </div>
                                                             <div class="form-check form-check-inline">
                                                                 <input class="form-check-input" th:type="checkbox"
-                                                                       id="inlineCheckbox2" th:name="roles" th:value=2>
-                                                                <label class="form-check-label" for="inlineCheckbox2">User</label>
+                                                                       id="inlineCheckbox2" th:name="roles" th:value=2 checked>
+                                                                <label class="form-check-label" for="inlineCheckbox2">Пользователь</label>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
@@ -118,15 +123,14 @@
                                         <td>
                                             <a type="button" class="btn btn-sm btn-danger" data-toggle="modal"
                                                data-target="#DELETE"
-                                               th:data-target="${'#DELETE'+human.id}">Delete</a>
+                                               th:data-target="${'#delit'+human.id}">Делит</a>
                                         </td>
-                                        <div class="modal fade" th:id="${'DELETE'+human.id}"
+                                        <div class="modal fade" th:id="${'delit'+human.id}"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" th:id="${'DELETE'+human.id}">Delete
-                                                            user</h5>
+                                                        <h5 class="modal-title" th:id="${'DELETE'+human.id}">Удалить пользователя</h5>
                                                         <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
@@ -139,15 +143,15 @@
                                                             <input th:name="id" th:type="text" class="form-control"
                                                                    id="id" th:value="${human.id}" disabled/>
                                                             <br>
-                                                            <label for="name1"><b>Name</b></label>
+                                                            <label for="name1"><b>Имя</b></label>
                                                             <input th:name="name" th:type="text"
                                                                    class="form-control"
                                                                    id="name1" th:value="${human.name}" disabled/>
                                                             <br>
-                                                            <label for="role1"><b>Role</b></label>
+                                                            <label for="role1"><b>Роли</b></label>
                                                             <input th:name="role" th:type="text"
                                                                    class="form-control"
-                                                                   id="role1" th:value="${human.roles}" disabled/>
+                                                                   id="role1" th:value="${human.getRolesString()}" disabled/>
                                                             <br>
                                                         </div>
                                                         <div class="modal-footer">
@@ -171,27 +175,7 @@
         </div>
     </div>
 </section>
-<!--<table border="6">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>id</th>-->
-<!--        <th>Name</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody>-->
-<!--    <tr th:each="user : ${userList}">-->
-<!--        <td th:text="${user.getId()}"></td>-->
-<!--        <td>-->
-<!--            <a th:href="@{'admin/user?id=' + ${user.getId()}}" th:text="${user.getName()}"></a>-->
-<!--        </td>-->
-<!---->
-<!--    </tr>-->
-<!--    </tbody>-->
-<!--</table>-->
-<!--<br>-->
-<!--<a th:href="@{'/admin/add'}">Добавление юзера</a>-->
-<!--<br>-->
-<!--<a th:href="@{'/logout'}">Выход</a>-->
+
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

@@ -3,7 +3,6 @@ package ru.kata.spring.boot_security.demo.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
@@ -29,7 +28,7 @@ public class AdminInit {
     public void Init() {
         Role role = new Role();
         role.setId(1L);
-        User admin = new User("admin", "admin", Collections.singletonList(role));
+        User admin = new User("admin", "admin",200,  Collections.singletonList(role));
         if (userRepository.findByName(admin.getName()).isEmpty()) {
             admin.setPassword(passwordEncoder.encode(admin.getPassword()));
             userRepository.save(admin);
