@@ -66,10 +66,14 @@
                                    th:type="text" required>
                             <strong>Почта</strong>
                             <input class="form-control" th:name="email"
-                                   th:type="text" required>
+                                   th:type="email" required>
                             <strong>Пароль</strong>
                             <input class="form-control" th:name="password"
-                                   th:type="password" required>
+                                   th:type="password"
+                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}"
+                                   title="Пароль должен содержать заглавную, маленькую буквы и цифры.
+                                     Длинна пароля от 6 до 20 символов" id="password"
+                                   required>
                             <strong>Возраст</strong>
                             <input class="form-control" th:name="age"
                                    th:type="number" required>

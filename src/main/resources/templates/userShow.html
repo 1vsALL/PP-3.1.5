@@ -52,12 +52,16 @@
                                         <tr>
                                             <th>ID</th>
                                             <th>Имя</th>
+                                            <th>Фамилия</th>
+                                            <th>Email</th>
                                             <th>Возраст</th>
                                             <th>Роли</th>
                                         </tr>
                                         <tr class="table-success">
                                             <td th:text="${user.getId()}"></td>
                                             <td th:text="${user.getName()}"></td>
+                                            <td th:text="${user.getLastName()}"></td>
+                                            <td th:text="${user.getEmail()}"></td>
                                             <td th:text="${user.getAge()}"></td>
                                             <td th:text="${user.getRolesString()}"></td>
                                         </tr>
