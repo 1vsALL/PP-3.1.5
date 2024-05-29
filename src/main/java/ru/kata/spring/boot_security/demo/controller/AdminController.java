@@ -76,14 +76,6 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/edit")
-    public String edit(@RequestParam("id") int id, ModelMap modelMap) {
-        modelMap.addAttribute("user", userService.userID(id));
-        modelMap.addAttribute("role", roleService.getRoles());
-        return "usersEdit";
-    }
-
-
     @PostMapping("/update")
     public String update(@RequestParam("id") long id, @ModelAttribute("human") User user, ModelMap modelMap) {
         modelMap.addAttribute("roles", roleService.getRoles());
