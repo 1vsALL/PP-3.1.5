@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User userID(long id) {
         Optional<User> optional = userRepository.findById(id);
-        return optional.orElseThrow();
+        return optional.orElseThrow(EntityNotFoundException::new);
     }
 
     @Transactional
@@ -67,14 +67,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void update(User user, long id) {
-        User updatedUser = userRepository.findById(id).get();
-        updatedUser.setName(user.getName());
-        updatedUser.setRoles(user.getRoles());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setLastName(user.getLastName());
-        updatedUser.setAge(user.getAge());
-        if (!user.getPassword().isEmpty()) {
-            updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        if (userRepository.findByEmail(user.getUsername()).isEmpty()) {
+            User updatedUser = userRepository.findById(id).get();
+            updatedUser.setName(user.getName());
+            updatedUser.setRoles(user.getRoles());
+            updatedUser.setEmail(user.getEmail());
+            updatedUser.setLastName(user.getLastName());
+            updatedUser.setAge(user.getAge());
+            if (!user.getPassword().isEmpty()) {
+                updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
+            }
+        } else {
+            throw new EntityNotFoundException();
         }
     }
 }
