@@ -6,31 +6,48 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.security.UserSecurity;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class AdminInit {
 
     private final UserRepository userRepository;
+    private final UserSecurity userSecurity;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
 
     @Autowired
-    public AdminInit(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public AdminInit(UserRepository userRepository, UserSecurity userSecurity, PasswordEncoder passwordEncoder, RoleService roleService) {
         this.userRepository = userRepository;
+        this.userSecurity = userSecurity;
         this.passwordEncoder = passwordEncoder;
+        this.roleService = roleService;
     }
 
     @PostConstruct
     public void Init() {
-        Role role = new Role();
-        role.setId(1L);
-        User admin = new User("admin", "admin", 200, "admin", "admin@admin.ru", Collections.singletonList(role));
-        if (userRepository.findByEmail(admin.getEmail()).isEmpty()) {
-            admin.setPassword(passwordEncoder.encode(admin.getPassword()));
-            userRepository.save(admin);
+        User administrator = new User("admin",
+                "admin",
+                0,
+                "admin",
+                "admin@admin.ru",
+                Collections.emptyList());
+        if (userRepository.findByEmail(administrator.getEmail()).isEmpty()) {
+            Role admin = new Role();
+            Role user = new Role();
+            admin.setName("ROLE_ADMIN");
+            user.setName("ROLE_USER");
+            roleService.saveRole(admin);
+            roleService.saveRole(user);
+            administrator.setRoles(List.of(admin, user));
+            administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
+            userRepository.save(administrator);
         }
     }
 }

@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void update(User user, long id) {
-        if (userRepository.findByEmail(user.getUsername()).isEmpty()) {
+        if (userRepository.findById(id).isPresent()) {
             User updatedUser = userRepository.findById(id).get();
             updatedUser.setName(user.getName());
             updatedUser.setRoles(user.getRoles());

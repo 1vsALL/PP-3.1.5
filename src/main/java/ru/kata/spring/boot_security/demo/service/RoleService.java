@@ -8,4 +8,5 @@ public interface RoleService {
     List<Role> getRoles();
 
     Role getRole(long id);
+    void saveRole(Role role);
 }
