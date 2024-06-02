@@ -45,7 +45,7 @@ public class AdminInit {
             user.setName("ROLE_USER");
             roleService.saveRole(admin);
             roleService.saveRole(user);
-            administrator.setRoles(List.of(admin, user));
+            administrator.setRoles(List.of(admin,user));
             administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
             userRepository.save(administrator);
         }

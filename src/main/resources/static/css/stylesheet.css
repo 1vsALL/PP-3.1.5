@@ -1,0 +1,45 @@
+body {
+    display: flex;
+}
+
+#sidebar {
+    padding: 20px;
+}
+
+#content {
+    padding: 20px;
+    width: 100%;
+}
+
+button, h2, table {
+    margin: 10px 0 10px 0;
+}
+
+table {
+    width: 100%;
+    border: 1px solid #dddddd;
+    border-collapse: collapse;
+}
+
+table th {
+    font-weight: bold;
+    padding: 5px;
+    background: #efefef;
+    border: 1px solid #dddddd;
+}
+
+table td {
+    border: 1px solid #dddddd;
+    padding: 5px;
+}
+
+form {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+input {
+    margin: 10px;
+}

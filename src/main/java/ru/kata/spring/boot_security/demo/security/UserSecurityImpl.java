@@ -28,4 +28,9 @@ public class UserSecurityImpl implements UserSecurity {
         }
         return updatedUser.get();
     }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByEmail(username);
+    }
 }

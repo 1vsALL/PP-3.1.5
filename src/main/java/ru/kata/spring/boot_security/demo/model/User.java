@@ -40,7 +40,7 @@ public class User implements UserDetails {
     @Column
     @NotEmpty(message = "Фамилия не должна быть пустой")
     private String lastName;
-    @Column
+    @Column(unique = true)
     private String email;
 
     @ManyToMany(fetch = FetchType.LAZY)

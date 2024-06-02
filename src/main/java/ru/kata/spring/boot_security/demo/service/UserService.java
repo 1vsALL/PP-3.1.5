@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.service;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     List<User> listUsers();
@@ -14,4 +15,5 @@ public interface UserService {
     void removeUserById(long id);
 
     void update(User user, long id);
+
 }

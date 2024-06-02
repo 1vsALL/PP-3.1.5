@@ -1,5 +1,6 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class Role implements GrantedAuthority {
     private long id;
     @Column
     private String name;
-
+    @Transient
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 

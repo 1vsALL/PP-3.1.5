@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService {
             updatedUser.setRoles(user.getRoles());
             userRepository.save(updatedUser);
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("не получилось добавить");
         }
     }
 
     @Override
     public User userID(long id) {
         Optional<User> optional = userRepository.findById(id);
-        return optional.orElseThrow(EntityNotFoundException::new);
+        return optional.orElseThrow(()->new EntityNotFoundException("не получилось получить, получается"));
     }
 
     @Transactional
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         if (userRepository.findById(id).isPresent()) {
             userRepository.deleteById(id);
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("не получилось удалить");
         }
     }
 
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
                 updatedUser.setPassword(passwordEncoder.encode(user.getPassword()));
             }
         } else {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("не получилось обновить");
         }
     }
 }
