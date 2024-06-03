@@ -23,8 +23,10 @@ function update(e) {
         },
         body: JSON.stringify({
             id: editForm.elements.namedItem("id").value,
-            username: editForm.elements.namedItem("username").value,
+            username: editForm.elements.namedItem("name").value,
             password: editForm.elements.namedItem("password").value,
+            age: editForm.elements.namedItem("age").value,
+            lastName: editForm.elements.namedItem("lastName").value,
             email: editForm.elements.namedItem("email").value,
             roles: selectedRoles
         }),

@@ -6,9 +6,9 @@ fetch('/user-data')
         const roles = user.roles.map(function (role) {
             return role.name;
         });
-        emailHeader.innerText = user.name;
+        emailHeader.innerText = user.email;
         rolesHeader.innerText = user.roles.map(function (role) {
-            return ' ' + role.username;
+            return ' ' + role.name.replace('ROLE_','');
         });
 
         if (!(roles.includes("ROLE_ADMIN"))) {
@@ -27,7 +27,9 @@ fetch('/user-data')
         let row = tableBody.insertRow();
         row.insertCell().innerHTML = user.id;
         row.insertCell().innerHTML = user.name;
-        row.insertCell().innerHTML = user.password;
+        // row.insertCell().innerHTML = user.password;
+        row.insertCell().innerHTML = user.lastName;
+        row.insertCell().innerHTML = user.age;
         row.insertCell().innerHTML = user.email;
         row.insertCell().innerHTML = user.roles.map(function (role) {
             return ' ' + role.name;

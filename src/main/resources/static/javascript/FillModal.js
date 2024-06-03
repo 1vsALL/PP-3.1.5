@@ -15,11 +15,11 @@ function fillModal(id, form) {
             form.elements.namedItem("id").value = user.id;
             form.elements.namedItem("firstName").value = user.name;
             form.elements.namedItem("lastName").value = user.lastName;
-            form.elements.namedItem("age").value = user.ag;
+            form.elements.namedItem("age").value = user.age;
             form.elements.namedItem("email").value = user.email;
-            if (form.elements.namedItem("password") != null) {
-                form.elements.namedItem("password").value = "";
-            }
+            // if (form.elements.namedItem("password") != null) {
+            //     form.elements.namedItem("password").value = "";
+            // }
         })
         .catch(error => console.error('Ошибка:', error));
 }

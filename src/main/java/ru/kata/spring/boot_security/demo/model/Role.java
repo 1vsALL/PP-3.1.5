@@ -23,7 +23,7 @@ public class Role implements GrantedAuthority {
     private long id;
     @Column
     private String name;
-    @Transient
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
     private Collection<User> users;
 

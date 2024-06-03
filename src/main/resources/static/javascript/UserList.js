@@ -7,9 +7,10 @@ function getUserList() {
             for (const user of users) {
                 let row = tableBody.insertRow();
                 row.insertCell().innerHTML = user.id
-                row.insertCell().innerHTML = user.username
-                row.insertCell().innerHTML = user.password
+                row.insertCell().innerHTML = user.name
+                row.insertCell().innerHTML = user.lastName;
                 row.insertCell().innerHTML = user.email;
+                row.insertCell().innerHTML = user.age;
                 row.insertCell().innerHTML = user.roles.map(function (role) {
                     return ' ' + role.name;
                 });

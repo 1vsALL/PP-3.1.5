@@ -21,8 +21,10 @@ function add(e) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            username: addForm.elements.namedItem("name").value,
+            name: addForm.elements.namedItem("name").value,
             password: addForm.elements.namedItem("password").value,
+            age: addForm.elements.namedItem("age").value,
+            lastName: addForm.elements.namedItem("lastName").value,
             email: addForm.elements.namedItem("email").value,
             roles: selectedRoles
         }),

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Людишки</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <p class="navbar-brand text-white">
+            <b><span class="align-middle" th:text="${user.getName()}"></span></b>
+            <span class="align-middle">с ролями:</span>
+            <span class="align-middle" th:text="${user.getRolesString()}"></span>
+        </p>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+        </form>
+    </div>
+</nav>
+
+<section>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="p-0 col-2">
+                <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse bg-white">
+                    <div class="position-sticky pt-3">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item">
+                                <a th:class="${'nav-link ' + (security ? '': 'disabled') }" href="/admin">Admin</a>
+                                <a th:class="nav-link" href="/user">User</a>
+                                <a th:class="nav-link" href="/api">ApishkaAU</a>
+                                <a th:class="nav-link" href="/api/9">Apishka9</a>
+                                <a th:class="nav-link" href="/api/10">Apishka10</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="col-10 px-0">
+                <div class="container-fluid">
+                    <h1 class="m-3 fw-bold">Админская панель</h1>
+                    <div class="tab-content" id="tabContent">
+                        <ul class="nav nav-tabs">
+                            <a class="nav-link active" data-bs-toggle="tab">Таблица юзеров</a>
+                            <a class="nav-link" data-bs-toggle="tab" href="/admin/add">Новый пользователь</a>
+                        </ul>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="m-1">
+                                    <h4>Все юзеры</h4>
+                                </div>
+                            </div>
+
+                            <div class="card-body" bg-primary text-black>
+                                <table class="table table-striped table-hover">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Имя</th>
+                                        <th>Фамилия</th>
+                                        <th>Почта</th>
+                                        <th>Возраст</th>
+                                        <th>Роли</th>
+                                        <th>Обновить</th>
+                                        <th>Удалить</th>
+                                    </tr>
+                                    <tr th:each="human : ${userList}">
+                                        <td th:text="${human.getId()}"></td>
+                                        <td th:text="${human.getName()}"></td>
+                                        <td th:text="${human.getLastName()}"></td>
+                                        <td th:text="${human.getEmail()}"></td>
+                                        <td th:text="${human.getAge()}"></td>
+                                        <td th:text="${human.getRolesString()}"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    th:data-target="${'#edit'+human.id}">Обнова
+                                            </button>
+                                        </td>
+
+                                        <div class="modal fade" th:id="${'edit'+human.id}" tabindex="-1" role="dialog"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" th:id="${'edit'+human.id}">Modal
+                                                            title</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form th:action="@{'admin/update?id='+ ${human.getId()}}"
+                                                              th:method="post" name="id" th:object="${human}">
+                                                            <strong>ID</strong>
+                                                            <input class="form-control" th:name="id" th:type="text"
+                                                                   readonly th:value="${human.id}">
+                                                            <strong>Имя</strong>
+                                                            <input class="form-control" th:name="name"
+                                                                   th:type="text" th:value="${human.name}">
+                                                            <strong>Фамилия</strong>
+                                                            <input class="form-control" th:name="lastName"
+                                                                   th:type="text" th:value="${human.lastName}">
+                                                            <strong>Почта</strong>
+                                                            <input class="form-control" th:name="email"
+                                                                   th:type="text" th:value="${human.email}">
+                                                            <strong>Возраст</strong>
+                                                            <input class="form-control" th:name="age"
+                                                                   th:type="number" th:value="${human.age}">
+                                                            <strong>Пароль</strong>
+                                                            <input class="form-control" th:name="password"
+                                                                   th:type="password">
+                                                            <strong>Роли</strong>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" th:type="checkbox"
+                                                                       id="inlineCheckbox1" th:name="roles" th:value=1>
+                                                                <label class="form-check-label" for="inlineCheckbox1">Админ</label>
+                                                            </div>
+                                                            <div class="form-check form-check-inline">
+                                                                <input class="form-check-input" th:type="checkbox"
+                                                                       id="inlineCheckbox2" th:name="roles" th:value=2
+                                                                       checked>
+                                                                <label class="form-check-label" for="inlineCheckbox2">Пользователь</label>
+                                                            </div>
+
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Закрыть
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Сохранить
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </td>
+                                        <td>
+                                            <a type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                               data-target="#DELETE"
+                                               th:data-target="${'#delit'+human.id}">Делит</a>
+                                        </td>
+                                        <div class="modal fade" th:id="${'delit'+human.id}"
+                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" th:id="${'DELETE'+human.id}">Удалить
+                                                            пользователя</h5>
+                                                        <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                    </div>
+                                                    <form class="modal-body col-md text-center"
+                                                          th:action="@{'admin/remove?id='+${human.id}}"
+                                                          th:method="patch">
+                                                        <div class="modal-body col-md">
+                                                            <label for="id"><b>ID</b></label>
+                                                            <input th:name="id" th:type="text" class="form-control"
+                                                                   id="id" th:value="${human.id}" disabled/>
+                                                            <br>
+                                                            <label for="name1"><b>Имя</b></label>
+                                                            <input th:name="name" th:type="text"
+                                                                   class="form-control"
+                                                                   id="name1" th:value="${human.name}" disabled/>
+                                                            <label for="name1"><b>Фамилия</b></label>
+                                                            <input th:name="lastName" th:type="text"
+                                                                   class="form-control"
+                                                                   id="lastName" th:value="${human.lastName}" disabled/>
+                                                            <label for="name1"><b>Почта</b></label>
+                                                            <input th:name="email" th:type="text"
+                                                                   class="form-control"
+                                                                   id="email" th:value="${human.email}" disabled/>
+                                                            <br>
+                                                            <label for="role1"><b>Роли</b></label>
+                                                            <input th:name="role" th:type="text"
+                                                                   class="form-control"
+                                                                   id="role1" th:value="${human.getRolesString()}"
+                                                                   disabled/>
+                                                            <br>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Закрыть
+                                                            </button>
+                                                            <button type="submit" class="btn btn-danger">Удалить
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
