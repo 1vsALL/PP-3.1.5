@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User userID(long id) {
         Optional<User> optional = userRepository.findById(id);
-        return optional.orElseThrow(()->new EntityNotFoundException("не получилось получить, получается"));
+        return optional.orElseThrow(() -> new EntityNotFoundException("не получилось получить, получается"));
     }
 
     @Transactional

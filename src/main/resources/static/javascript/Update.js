@@ -17,17 +17,17 @@ function update(e) {
         }
     }
     fetch('/update', {
-        method: 'PATCH',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            id: editForm.elements.namedItem("idUpd").value,
-            name: editForm.elements.namedItem("nameUpd").value,
-            password: editForm.elements.namedItem("passwordUpd").value,
-            age: editForm.elements.namedItem("ageUpd").value,
-            lastName: editForm.elements.namedItem("lastNameUpd").value,
-            email: editForm.elements.namedItem("emailUpd").value,
+            id: editForm.elements.namedItem("id").value,
+            name: editForm.elements.namedItem("name").value,
+            password: editForm.elements.namedItem("password").value,
+            age: editForm.elements.namedItem("age").value,
+            lastName: editForm.elements.namedItem("lastName").value,
+            email: editForm.elements.namedItem("email").value,
             roles: selectedRoles
         }),
     })

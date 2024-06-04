@@ -38,6 +38,7 @@ public class AdminInit {
                 "admin",
                 "admin@admin.ru",
                 Collections.emptyList());
+
         if (userRepository.findByEmail(administrator.getEmail()).isEmpty()) {
             Role admin = new Role();
             Role user = new Role();
@@ -45,7 +46,7 @@ public class AdminInit {
             user.setName("ROLE_USER");
             roleService.saveRole(admin);
             roleService.saveRole(user);
-            administrator.setRoles(List.of(admin,user));
+            administrator.setRoles(List.of(admin, user));
             administrator.setPassword(passwordEncoder.encode(administrator.getPassword()));
             userRepository.save(administrator);
         }

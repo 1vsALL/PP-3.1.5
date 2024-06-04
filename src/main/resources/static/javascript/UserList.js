@@ -15,9 +15,9 @@ function getUserList() {
                     return ' ' + role.name;
                 });
                 row.insertCell().innerHTML =
-                    '<button class="btn btn-info" type="submit" onclick="getEditModal(' + user.id + ')" data-toggle="modal" data-target="#modalEdit">Edit</button>';
+                    '<button class="btn btn-warning" type="submit" onclick="getEditModal(' + user.id + ')" data-toggle="modal" data-target="#modalEdit">Редактировать</button>';
                 row.insertCell().innerHTML =
-                    '<button class="btn btn-danger" type="submit" onclick="getDeleteModal(' + user.id + ')" data-toggle="modal" data-target="#modalDelete">Delete</button>';
+                    '<button class="btn btn-danger" type="submit" onclick="getDeleteModal(' + user.id + ')" data-toggle="modal" data-target="#modalDelete">Удалить</button>';
             }
         })
         .catch(error => console.error('Ошибка:', error));

@@ -12,8 +12,8 @@ import javax.persistence.EntityNotFoundException;
 public class ExceptionController {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<MyException> handler(EntityNotFoundException entityNotFoundException){
-        MyException exception=new MyException(entityNotFoundException.getMessage());
+    public ResponseEntity<MyException> handler(EntityNotFoundException entityNotFoundException) {
+        MyException exception = new MyException(entityNotFoundException.getMessage());
         return new ResponseEntity<>(exception, HttpStatus.NOT_FOUND);
     }
 }
