@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.Exception;
+package ru.kata.spring.boot_security.demo.util;
 
 public class MyException {
     private String info;
